@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/common/common.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -12,8 +11,7 @@
 	<script src="${resources }/js/echarts.min.js"></script>
 	<script src="${resources }/js/dark.js"></script>
 	<script src="${resources }/js/jquery.min.js"></script>
-	<script src="${resources }/js/house.js"></script>
-	<script src="http://echarts.baidu.com/asset/map/js/china.js"></script>
+	<script src="${resources }/js/house.js" charset="GBK"></script>
 </head>
 	<body>	
 	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->

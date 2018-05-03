@@ -1,4 +1,4 @@
-package com.manager.inner.dto;
+package com.demo.inner.dto;
 
 import java.util.ArrayList;
 import java.util.List;

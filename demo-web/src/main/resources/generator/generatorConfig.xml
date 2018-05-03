@@ -12,7 +12,7 @@
 			<property name="suppressAllComments" value="true"/>    
 		</commentGenerator>    
 		<!--数据库链接URL，用户名、密码 -->    
-		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://39.108.12.197:3306/takeout" userId="root" password="volcano">    
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://39.108.12.197:3306/house" userId="root" password="volcano">    
 		</jdbcConnection>    
 		<javaTypeResolver>    
 			<property name="forceBigDecimals" value="false"/>    
