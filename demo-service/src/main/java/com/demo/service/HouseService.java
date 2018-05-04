@@ -1,13 +1,14 @@
-package com.demo.mapper;
+package com.demo.service;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.demo.entity.House;
-import com.demo.inner.base.mapper.BaseMapper;
+import com.demo.inner.base.service.BaseService;
+import com.demo.mapper.HouseMapper;
 
-public interface HouseMapper extends BaseMapper<House>{
+public interface HouseService extends BaseService<House, HouseMapper>{
 
 	/**
 	 * 获取各地区各楼盘的平均房价

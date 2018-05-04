@@ -13,13 +13,14 @@ $(function(){
                 data:['平均房价']
             },
             xAxis: {
-                data: ["集美区","同安区","思明区","湖里区","翔安区","海沧区"]
+                data: ["同安区","思明区","海沧区","湖里区","翔安区","集美区"]
             },
             yAxis: {},
             series: [{
                 name: '平均房价',
                 type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
+                barWidth: 20,
+                data: [24481,57674,36515,58903,27511,31038]
             }]
         };
         // 使用刚指定的配置项和数据显示图表。
@@ -39,12 +40,12 @@ $(function(){
 		            radius : '55%',
 		            center: ['50%', '60%'],
 		            data:[
-		                {value:335, name:'集美区'},
-		                {value:310, name:'同安区'},
-		                {value:234, name:'翔安区'},
-		                {value:135, name:'湖里区'},
-		                {value:1548, name:'思明区'},
-		                {value:456, name:'海沧区'}
+		                {value:31038, name:'集美区'},
+		                {value:24481, name:'同安区'},
+		                {value:27511, name:'翔安区'},
+		                {value:58903, name:'湖里区'},
+		                {value:57674, name:'思明区'},
+		                {value:36515, name:'海沧区'}
 		            ],
 		            itemStyle: {
 		                emphasis: {

@@ -19,21 +19,24 @@
             <span class="text-liner">厦门市房价分析</span>
         </div>
         <div class="container">
-        <div class="outside" style="width: 25%;border: royalblue; border-style:dotted solid dotted">
-	    	<div id="main" style="width: 290px;height:200px;"></div>
-	    	<div id="line" style="width: 290px;height:200px;"></div>
+        <div class="outside" style="border: royalblue; border-style:dotted solid dotted">
+	    	<div id="main" style="width: 440px;height:200px;"></div>
+	    	<div id="line" style="width: 440px;height:200px;"></div>
     	</div>
-	    <div class="outside" style="width: 60%;margin: 20px;border: royalblue; border-style:dotted solid dotted">
+	    <div class="outside" style="width: 40%;margin: 20px;border: royalblue; border-style:dotted solid dotted">
 	    	<div id="d_map"></div>
     	</div>
-    	<div class="outside" style="width: 25%;border: royalblue; border-style:dotted solid dotted">
-    		<div class="member_count" id="member_count" data-value="9999">
-            <span class="tt"><img src="http://o9gzet7tk.bkt.clouddn.com/img/title_03_member_total.png"></span>
+    	<div class="outside" style="width: 30%;border: royalblue; border-style:dotted solid dotted">
+    		<div class="member_count" id="member_count" data-value="44371">
+            <!-- <span class="tt">
+            	<img src="http://o9gzet7tk.bkt.clouddn.com/img/title_03_member_total.png">
+            </span> -->
             <span class="no">
-                <img src="http://o9gzet7tk.bkt.clouddn.com/img/9.png" class="">
-                <img src="http://o9gzet7tk.bkt.clouddn.com/img/9.png" class="">
-                <img src="http://o9gzet7tk.bkt.clouddn.com/img/9.png" class="">
-                <img src="http://o9gzet7tk.bkt.clouddn.com/img/9.png" class="">
+                <img src="http://o9gzet7tk.bkt.clouddn.com/img/4.png" class="">
+                <img src="http://o9gzet7tk.bkt.clouddn.com/img/4.png" class="">
+                <img src="http://o9gzet7tk.bkt.clouddn.com/img/3.png" class="">
+                <img src="http://o9gzet7tk.bkt.clouddn.com/img/7.png" class="">
+                <img src="http://o9gzet7tk.bkt.clouddn.com/img/1.png" class="">
             </span>
 	        </div>
 	    	<div id="pie" style="width: 300px;height:200px;"></div>	

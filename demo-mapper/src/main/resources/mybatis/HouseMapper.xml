@@ -16,9 +16,22 @@
 	<sql id="Base_Column_List" >
     id, origin, name, city, brand, address, price, type, area, create_time
 	</sql>
+	
+	<select id="getAvgPriceByBrand" resultMap="BaseResultMap">
+		SELECT city,brand,date_format(create_time, '%Y-%m-%d') as create_time,avg(price) as price FROM house
+		where to_days(create_time) = to_days(now())
+		GROUP BY city,brand,date_format(create_time, '%Y-%m-%d')
+		order by city,brand
+	</select>
+	
 	<!--获取当天平均房价数据-->
 	<select id="getAvgPrice" resultMap="BaseResultMap">
-		SELECT city,avg(price) as price,max(create_time) as create_time FROM house GROUP BY city 
+		SELECT avg(price) as price FROM house WHERE to_days(create_time) = to_days(now()) 
+	</select>
+	
+	<!--获取各区当天平均房价数据-->
+	<select id="getAvgPriceByCity" resultMap="BaseResultMap">
+		SELECT city,avg(price) as price,max(create_time) as create_time FROM house GROUP BY city order by city
 	</select>
 	
 	<!--获取最近7天的数据--> 
@@ -29,6 +42,6 @@
 			city = #{city} and
 			</if> 
 		date_sub(curdate(), INTERVAL 7 DAY) &lt;= date(create_time)
-		GROUP BY city,date_format(create_time, '%Y-%m-%d')
+		GROUP BY city,date_format(create_time, '%Y-%m-%d') order by city
 	</select>
 </mapper>
