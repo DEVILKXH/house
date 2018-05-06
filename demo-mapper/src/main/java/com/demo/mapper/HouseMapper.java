@@ -10,6 +10,12 @@ import com.demo.inner.base.mapper.BaseMapper;
 public interface HouseMapper extends BaseMapper<House>{
 
 	/**
+	 * 获取面积-房价
+	 * @return
+	 */
+	public List<House> getForecast(@Param("city") String city,@Param("brand") String brand);
+	
+	/**
 	 * 获取各地区各楼盘的平均房价
 	 * @return
 	 */
@@ -19,14 +25,14 @@ public interface HouseMapper extends BaseMapper<House>{
 	 * 获取当天的平均房价
 	 * @return
 	 */
-	public List<House> getAvgPrice();
+	public House getAvgPrice();
 	
 
 	/**
 	 * 获取各区当天房价
 	 * @return
 	 */
-	public List<House> getAvgPriceByCity();
+	public List<House> getAvgPriceByCity(@Param("type") String type);
 	
 	/**
 	 * 获取最近7天的平均房价信息

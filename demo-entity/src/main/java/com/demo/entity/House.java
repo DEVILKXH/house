@@ -33,7 +33,7 @@ public class House extends BaseEntity{
     private String type;
     
     @Column(name = "area")
-    private String area;
+    private int area;
     
     @Column(name = "createTime")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -95,12 +95,12 @@ public class House extends BaseEntity{
         this.type = type == null ? null : type.trim();
     }
 
-    public String getArea() {
+    public int getArea() {
         return area;
     }
 
-    public void setArea(String area) {
-        this.area = area == null ? null : area.trim();
+    public void setArea(int area) {
+        this.area = area;
     }
 
     public Date getCreateTime() {

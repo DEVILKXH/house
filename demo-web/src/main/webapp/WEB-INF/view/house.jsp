@@ -16,7 +16,7 @@
 	<body>	
 	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
         <div class="text">
-            <span class="text-liner">厦门市房价分析</span>
+            <span class="text-liner"><a href="${contextPath}/house/forecast.do">厦门市房价分析</a></span>
         </div>
         <div class="container">
         <div class="outside" style="border: royalblue; border-style:dotted solid dotted">
@@ -32,11 +32,9 @@
             	<img src="http://o9gzet7tk.bkt.clouddn.com/img/title_03_member_total.png">
             </span> -->
             <span class="no">
-                <img src="http://o9gzet7tk.bkt.clouddn.com/img/4.png" class="">
-                <img src="http://o9gzet7tk.bkt.clouddn.com/img/4.png" class="">
-                <img src="http://o9gzet7tk.bkt.clouddn.com/img/3.png" class="">
-                <img src="http://o9gzet7tk.bkt.clouddn.com/img/7.png" class="">
-                <img src="http://o9gzet7tk.bkt.clouddn.com/img/1.png" class="">
+            	<c:forEach items="${price }" var = "i">
+	                <img src="http://o9gzet7tk.bkt.clouddn.com/img/${i}.png" class="">
+            	</c:forEach>
             </span>
 	        </div>
 	    	<div id="pie" style="width: 300px;height:200px;"></div>	

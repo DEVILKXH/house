@@ -11,6 +11,12 @@ import com.demo.mapper.HouseMapper;
 public interface HouseService extends BaseService<House, HouseMapper>{
 
 	/**
+	 * 获取面积-房价
+	 * @return
+	 */
+	public List<House> getForecast(String city,String brand);
+	
+	/**
 	 * 获取各地区各楼盘的平均房价
 	 * @return
 	 */
@@ -20,14 +26,14 @@ public interface HouseService extends BaseService<House, HouseMapper>{
 	 * 获取当天的平均房价
 	 * @return
 	 */
-	public List<House> getAvgPrice();
+	public House getAvgPrice();
 	
 
 	/**
 	 * 获取各区当天房价
 	 * @return
 	 */
-	public List<House> getAvgPriceByCity();
+	public List<House> getAvgPriceByCity(String type);
 	
 	/**
 	 * 获取最近7天的平均房价信息

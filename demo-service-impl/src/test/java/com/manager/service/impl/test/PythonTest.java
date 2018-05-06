@@ -7,9 +7,9 @@ public class PythonTest {
 
 	public static void main(String args[]) {
 		Process pr = null;
-		String area = "集美";
-		String price = "1000";
-		String []_args = {"python3","F:/pycode/house2/test2.py",area,price};
+		String area = "海沧";
+		String price = "马青路";
+		String []_args = {"python3","E:/workspace/house/demo-web/src/main/resources/python/forecast.py",area,price};
 		try {
 			pr = Runtime.getRuntime().exec(_args);
 			BufferedReader bf = new BufferedReader(new InputStreamReader(pr.getInputStream()));

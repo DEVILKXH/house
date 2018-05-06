@@ -24,7 +24,15 @@ $(function(){
             }]
         };
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+        
+        $.ajax({
+			url: uri + '/house/getAvgPriceByCity.do?type=new',
+			success:function(res){
+				option.xAxis.data = res.axisData;
+				option.series = res.series;
+				myChart.setOption(option);
+			}
+		});
         
         //指定图表的配置项和数据 --- 饼图
         var pieChart = echarts.init(document.getElementById('pie'),'dark');
@@ -57,8 +65,13 @@ $(function(){
 		        }
 		    ]
 		};
-		pieChart.setOption(optionPie);
-		
+		$.ajax({
+			url: uri + '/house/getAvgPriceByCityOld.do?type=old',
+			success:function(res){
+				optionPie.series[0].data = res.list;
+				pieChart.setOption(optionPie);
+			}
+		});
 		//折线图
 		var lineChart = echarts.init(document.getElementById('line'),'dark');
 		optionLine = {
@@ -121,7 +134,28 @@ $(function(){
 		        }
 		    ]
 		};
-		lineChart.setOption(optionLine);
+		
+		$.ajax({
+			url: uri + '/house/getAvgPriceByDay.do',
+			success:function(res){
+				optionLine.legend.data = res.legendData;
+				optionLine.xAxis.data = res.axisData;
+				optionLine.series = res.series;
+				lineChart.setOption(optionLine);
+				console.log(res);
+			}
+		});
+		
+		function getOptions(echart,options,city){
+			var url = uri + '/house/getAvgPriceByDay2.do?city='+city;
+			$.ajax({
+				url: url,
+				success:function(res){
+					options.series[0].data = res.list;
+					echart.setOption(options);
+				}
+			});
+		}
 		
 		//思明
 		var simingChart = echarts.init(document.getElementById('simingpie'),'dark');
@@ -169,7 +203,6 @@ $(function(){
 		        }
 		    ]
 		};
-		simingChart.setOption(optionSiming);
 		
 		//湖里
 		var huliChart = echarts.init(document.getElementById('hulipie'),'dark');
@@ -217,7 +250,6 @@ $(function(){
 		        }
 		    ]
 		};
-		huliChart.setOption(optionHuli);
 		
 		//集美
 		var jimeiChart = echarts.init(document.getElementById('jimeipie'),'dark');
@@ -265,7 +297,6 @@ $(function(){
 		        }
 		    ]
 		};
-		jimeiChart.setOption(optionJimei);
 		
 		//同安
 		var tonganChart = echarts.init(document.getElementById('tonganpie'),'dark');
@@ -313,7 +344,6 @@ $(function(){
 		        }
 		    ]
 		};
-		tonganChart.setOption(optionTongan);
 		
 		//翔安
 		var xianganChart = echarts.init(document.getElementById('xianganpie'),'dark');
@@ -361,7 +391,6 @@ $(function(){
 		        }
 		    ]
 		};
-		xianganChart.setOption(optionXiangan);
 		//海沧
 		var haicangChart = echarts.init(document.getElementById('haicangpie'),'dark');
 		var optionHaicang = {
@@ -408,7 +437,13 @@ $(function(){
 		        }
 		    ]
 		};
-		haicangChart.setOption(optionHaicang);
+		
+		getOptions(simingChart,optionSiming,'思明');
+		getOptions(huliChart,optionHuli,'湖里');
+		getOptions(jimeiChart,optionJimei,'集美');
+		getOptions(xianganChart,optionXiangan,'翔安');
+		getOptions(tonganChart,optionTongan,'同安');
+		getOptions(haicangChart,optionHaicang,'海沧');
 		
         //平均房价逻辑
         /*预加载图片*/
@@ -436,87 +471,50 @@ $(function(){
 		}
 		preLoadImages(urls);
 		
-		
-		
-		//会员总数
-		$(function () {
-		    //模拟动态修改数据每5秒加5
-		    setInterval(function () {
-		        var oldVal = parseInt($("#member_count").attr("data-value"));
-		        $("#member_count").attr("data-value", oldVal + 5);
-		    }, 5000);
-		    //模拟读取并修改显示
-		    var _oldVal = $("#member_count").attr("data-value");
-		    setInterval(function () {
-		        var newVal = $("#member_count").attr("data-value"),
-		            oStr = _oldVal.toString(),
-		            nStr = newVal.toString();
-		        if (_oldVal != newVal) {
-		            _oldVal = newVal;
-		            var oCharArr = oStr.split(""),
-		                nCharArr = nStr.split("");
-		            if (oStr.length == nStr.length) {
-		                for (var i in oCharArr) {
-		                    if (oCharArr[i] != nCharArr[i]) {
-		                        var $img = $("#member_count").find(".no img:eq(" + i + ")"),
-		                            src = $img.attr("src");
-		                        $img.attr("src", src.replace(oCharArr[i] + ".png", nCharArr[i] + ".png")).addClass("animated flipInX").one('webkitAnimationEnd mozAnimationEnd animationend', function () {
-		                            $(this).attr("class", "");
-		                        });
-		                    }
-		                }
-		            } else {
-		                var imgGapNo = nStr.length - oStr.length;
-		                var _img = $("#member_count").find(".no img:eq(0)"),
-		                    _no = $("#member_count").find(".no");
-		                for (var i = 0; i < imgGapNo; i++) {
-		                    _no.append(_img.get(0).outerHTML);
-		                }
-		                for (var j in nCharArr) {
-		                    var $img = $("#member_count").find(".no img:eq(" + j + ")"),
-		                        src = $img.attr("src");
-		                    $img.attr("src", src.replace(/\d{1}.png/, nCharArr[j] + ".png")).addClass("animated flipInX").one('webkitAnimationEnd mozAnimationEnd animationend', function () {
-		                        $(this).attr("class", "");
-		                    });
-		                }
-		            }
-		        }
-		    }, 5000);
-		});
-		
 		//地图
 		$(function(){
 //	    var geoCoo
 		var geoCoordMap = {
-//		   '思明': [118.1689, 24.6478],
-//		   '湖里': [118.1689, 24.6478],
-		   '海沧': [
-					[118.031256132813, 24.4693483710938],
-					[118.036046171875, 24.4451174140626],
-					[117.963170195313, 24.4596681953125],
-					[117.957345, 24.4638430000001],
-					[117.952877226563, 24.5031179023438],
-					[117.93142703125, 24.5179274726563],
-					[117.92326296875, 24.5297585273438],
-					[117.91142703125, 24.5379274726563],
-					[117.90326296875, 24.5697585273438],
-					[117.887345, 24.593843],
-					[117.890704375, 24.610483625],
-					[117.913985625, 24.617202375],
-					[117.925201445313, 24.6393727851563],
-					[117.947345, 24.6438430000001],
-					[117.95107546875, 24.592075421875],
-					[117.987203398438, 24.5737966132812],
-					[117.979244414063, 24.5574977851563],
-					[117.997345, 24.553843],
-					[118.001519804688, 24.5480178046875],
-					[118.05091921875, 24.5289650703125],
-					[118.063761015625, 24.508735578125],
-					[118.031256132813, 24.4693483710938]
-				]
-//		   '同安': [118.1689, 24.6478],
-//		   '翔安': [118.1689, 24.6478],
-//		   '集美': [118.1689, 24.6478]
+			'集美大学':[118.101299,24.588486],
+			'集美新城':[118.062182,24.610049],
+			'灌口':[117.998971,24.615116],
+			'杏西路':[118.025266,24.571251],
+			'杏滨路':[118.069796,24.575782],
+			'杏北':[118.049613,24.575724],
+			'杏东路':[118.054376,24.569727],
+			'华侨大学':[118.079395,24.578547],
+			'厦门北站':[118.079645,24.643368],
+			'马巷':[118.257531,24.662825],
+			'翔安新城':[118.245993,24.611148],
+			'新店':[118.253699,24.614739],
+			'新圩':[118.265528,24.739961],
+			'大嶝':[118.338808,24.568567],
+			'高新科技园':[118.168469,24.530683],
+			'枋湖':[118.147393,24.518522],
+			'金山':[118.163867,24.507337],
+			'金尚':[118.157134,24.499217],
+			'机场':[118.13862,24.540399],
+			'湖里万达':[118.184016,24.51089],
+			'五缘湾北区':[118.168824,24.528272],
+			'SM城市广场':[118.133503,24.506661],
+			'海沧区政府':[118.039547,24.490415],
+			'海沧生活区':[118.040044,24.499406],
+			'滨海社区':[118.02672,24.563255],
+			'自贸区':[118.016718,24.4664],
+			'马青路':[118.057579,24.520369],
+			'鼓浪屿':[118.073167,24.450523],
+			'观音山':[118.204635,24.501241],
+			'莲坂':[118.12763,24.487841],
+			'瑞景':[118.166143,24.48073],
+			'曾厝垵':[118.133137,24.432679],
+			'厦大':[118.111907,24.442647],
+			'前埔':[118.186194,24.477463],
+			'会展中心':[118.189308,24.473369],
+			'中山路':[118.085588,24.460278],
+			'城北':[118.14938,24.744403],
+			'城南':[118.153562,24.721252],
+			'城西':[118.152507,24.74005],
+			'环东海域':[118.131887,24.706392]
 		};  
 		  
 		var convertData = function (data) {  
@@ -525,20 +523,22 @@ $(function(){
 		    	console.log(data);
 		        var geoCoord = geoCoordMap[data[i].name];  
 		        if (geoCoord) { 
-		        	for(var attr in geoCoord){
-		        		res.push(geoCoord[attr].concat(data[i].value))
-		        	}
-//		            res.push(geoCoord.concat(data[i].value));  
+		            res.push(geoCoord.concat(data[i].value));  
 		        }  
 		    } 
-		    console.log(res)
 		    return res;
 		};  
 		  
 		$.get(uri + '/resources/js/xiamen.json', function (geoJson) {
 			var dMapChart = echarts.init(document.getElementById('d_map'));
 			echarts.registerMap('厦门', geoJson);
-			dMapChart.setOption(optionChart);
+			$.ajax({
+				url: uri + '/house/getAvgPriceByBrand.do',
+				success:function(res){
+					optionChart.series[0].data = convertData(res.list);
+					dMapChart.setOption(optionChart);
+				}
+			});	
 		});
 		
 		var optionChart = {  

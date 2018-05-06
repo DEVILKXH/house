@@ -10,7 +10,7 @@
 		<result column="address" property="address" jdbcType="VARCHAR" />
 		<result column="price" property="price" jdbcType="INTEGER" />
 		<result column="type" property="type" jdbcType="VARCHAR" />
-		<result column="area" property="area" jdbcType="VARCHAR" />
+		<result column="area" property="area" jdbcType="INTEGER" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List" >
@@ -18,30 +18,41 @@
 	</sql>
 	
 	<select id="getAvgPriceByBrand" resultMap="BaseResultMap">
-		SELECT city,brand,date_format(create_time, '%Y-%m-%d') as create_time,avg(price) as price FROM house
-		where to_days(create_time) = to_days(now())
-		GROUP BY city,brand,date_format(create_time, '%Y-%m-%d')
+		SELECT city,brand,avg(price) as price FROM house
+		where type = 'new'
+		GROUP BY city,brand
 		order by city,brand
 	</select>
 	
 	<!--获取当天平均房价数据-->
 	<select id="getAvgPrice" resultMap="BaseResultMap">
-		SELECT avg(price) as price FROM house WHERE to_days(create_time) = to_days(now()) 
+		SELECT avg(price) as price FROM house WHERE type='new'  and to_days(create_time) = to_days(now()) 
 	</select>
 	
 	<!--获取各区当天平均房价数据-->
 	<select id="getAvgPriceByCity" resultMap="BaseResultMap">
-		SELECT city,avg(price) as price,max(create_time) as create_time FROM house GROUP BY city order by city
+		SELECT city,avg(price) as price,max(create_time) as create_time FROM house 
+		<if test="type != null"> 
+			where type= #{type}
+		</if>
+		GROUP BY city order by city
 	</select>
 	
 	<!--获取最近7天的数据--> 
 	<select id="getAvgPriceByDay" resultMap="BaseResultMap">
 		SELECT city,date_format(create_time, '%Y-%m-%d') as create_time,avg(price) as price FROM house
-		WHERE
+		WHERE type='new' and
 			<if test="city != null"> 
-			city = #{city} and
+			 city = #{city} and
 			</if> 
 		date_sub(curdate(), INTERVAL 7 DAY) &lt;= date(create_time)
 		GROUP BY city,date_format(create_time, '%Y-%m-%d') order by city
+	</select>
+	
+	<select id="getForecast" resultMap="BaseResultMap">
+		SELECT city,brand,area,avg(price) as price   FROM house
+		WHERE type = 'old' and city=#{city} and brand = #{brand}
+		GROUP BY city,brand,area
+		order BY city,brand,area
 	</select>
 </mapper>
