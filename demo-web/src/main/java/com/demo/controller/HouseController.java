@@ -44,28 +44,20 @@ public class HouseController extends BaseController<House, HouseMapper,HouseServ
 		Map<String,Object> maps = new HashMap<>();
 		List<House> list = service.getForecast(city, brand);
 		Map<String, EchartLine> map = new HashMap<>();
-		EchartLineResult result = new EchartLineResult();
+		List<List<String>> result = new ArrayList<>();
 		for(House house: list){
-			EchartLine line = new EchartLine();
-			String key = house.getCity();
-			if(map.containsKey(key)){
-				line = map.get(key);
-			}else{
-				map.put(key, line);
-				result.addSeries(line);
-			}
-			line.addData(house.getPrice().toString());
-			line.setName(house.getBrand());
-			result.addxAxisData(house.getArea() + "");
+			List<String> d = new ArrayList<>();
+			d.add(house.getArea() + "");
+			d.add(house.getPrice().toString());
+			result.add(d);
 		}
-		result.addLedgendData(brand);
 		maps.put("result", result);
 		
-		String path = request.getSession().getServletContext().getRealPath("/");
-		String re = pythonService.forecast(city, brand, path);
-		String []res = re.split("x");
-		maps.put("b", res[0]);
-		maps.put("a", res[1]);
+//		String path = request.getSession().getServletContext().getRealPath("/");
+//		String re = pythonService.forecast(city, brand, path);
+//		String []res = re.split("x");
+//		maps.put("b", res[0]);
+//		maps.put("a", res[1]);
 		return maps;
 	}
 	

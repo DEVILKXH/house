@@ -53,29 +53,60 @@
 			"集美":["华侨大学","厦门北站","同集南路","杏东路","杏北","杏滨路","杏西路","灌口","集美大学","集美新城"]
 		}
 		
-		var lineChart = echarts.init(document.getElementById('main'),'dark');
-		optionLine = {
+		var lineOpt = echarts.init(document.getElementById('main'),'dark');
+		var markLineOpt = {
+		    animation: false,
+		    label: {
+		        normal: {
+		            textStyle: {
+		                align: 'right'
+		            }
+		        }
+		    },
+		    lineStyle: {
+		        normal: {
+		            type: 'solid'
+		        }
+		    },
 		    tooltip: {
-		        trigger: 'axis'
 		    },
-		    legend: {
-		       data: []
+		    data: [[{
+		        coord: [0, 3],
+		        symbol: 'none'
+		    }, {
+		        coord: [20, 13],
+		        symbol: 'none'
+		    }]]
+		};
+
+		option = {
+		    title: {
+		        text: '',
+		        x: 'center',
+		        y: 0
 		    },
-		    grid: {
-		        left: '3%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
+		    grid: [
+		        {x: '7%', y: '7%'}
+		    ],
+		    tooltip: {
+		        formatter: 'Group {a}: ({c})'
 		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: []
-		    },
-		    yAxis: {
-		        type: 'value'
-		    },
-		    series: []
+		    xAxis: [
+		        {gridIndex: 0, min: 0}
+		    ],
+		    yAxis: [
+		        {gridIndex: 0, min: 0}
+		    ],
+		    series: [
+		        {
+		            name: 'I',
+		            type: 'scatter',
+		            xAxisIndex: 0,
+		            yAxisIndex: 0,
+		            data: [],
+		            //markLine: markLineOpt
+		        }
+		    ]
 		};
 		
 		$(".city").change(function(){
@@ -95,13 +126,11 @@
 				url: '/demo-web/house/getForecast.do?city=' + city + '&brand=' + brand,
 				async: true,
 				success:function(res){
-					optionLine.legend.data = res.result.legendData;
-					optionLine.xAxis.data = res.result.axisData;
-					optionLine.series = res.result.series;
+					option.series[0].data = res.result;
 					a = res.a;
 					b = res.b;
-					lineChart.clear();
-					lineChart.setOption(optionLine);
+					lineOpt.clear();
+					lineOpt.setOption(option);
 				}
 			});
 		});
