@@ -1,8 +1,8 @@
 ﻿/**
  * 
  */
+var uri = "/demo-web"
 $(function(){
-	var uri = "/demo-web"
 
 // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'),'dark');
@@ -136,7 +136,7 @@ $(function(){
 		};
 		
 		$.ajax({
-			url: uri + '/house/getAvgPriceByDay.do',
+			url: uri + '/house2/getAvgPriceByCity.do',
 			success:function(res){
 				optionLine.legend.data = res.legendData;
 				optionLine.xAxis.data = res.axisData;
@@ -147,7 +147,7 @@ $(function(){
 		});
 		
 		function getOptions(echart,options,city){
-			var url = uri + '/house/getAvgPriceByDay2.do?city='+city;
+			var url = uri + '/house2/getAvgPriceByMonth.do?area='+city;
 			$.ajax({
 				url: url,
 				success:function(res){
@@ -438,12 +438,12 @@ $(function(){
 		    ]
 		};
 		
-		getOptions(simingChart,optionSiming,'思明');
-		getOptions(huliChart,optionHuli,'湖里');
-		getOptions(jimeiChart,optionJimei,'集美');
-		getOptions(xianganChart,optionXiangan,'翔安');
-		getOptions(tonganChart,optionTongan,'同安');
-		getOptions(haicangChart,optionHaicang,'海沧');
+		getOptions(simingChart,optionSiming,'siming');
+		getOptions(huliChart,optionHuli,'huli');
+		getOptions(jimeiChart,optionJimei,'jimei');
+		getOptions(xianganChart,optionXiangan,'xiangana');
+		getOptions(tonganChart,optionTongan,'tongana');
+		getOptions(haicangChart,optionHaicang,'haicang');
 		
         //平均房价逻辑
         /*预加载图片*/
@@ -573,3 +573,28 @@ $(function(){
 	// 使用刚指定的配置项和数据显示图表。
 	});
 });
+
+
+function getNew(){
+	var url = uri + "/python/getNew.do";
+	getPython(url);
+}
+
+function getOld(){
+	var url = uri + "/python/getOld.do";
+	getPython(url);
+}
+
+function getHistory(){
+	var url = uri + "/python/getHistory.do";
+	getPython(url);
+}
+
+function getPython(url){
+	$.ajax({
+		url: url,
+		success: function(){
+			alert("获取成功")
+		}
+	})
+}

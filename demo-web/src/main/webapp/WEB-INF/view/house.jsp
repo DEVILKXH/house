@@ -17,6 +17,10 @@
 	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
         <div class="text">
             <span class="text-liner"><a href="${contextPath}/house/forecast.do">厦门市房价分析</a></span>
+        	<br />
+        	<button onclick="getNew()">获取新楼盘</button>
+        	<button onclick="getOld()">获取旧楼盘</button>
+        	<button onclick="getHistory()">获取历史数据</button>
         </div>
         <div class="container">
         <div class="outside" style="border: royalblue; border-style:dotted solid dotted">

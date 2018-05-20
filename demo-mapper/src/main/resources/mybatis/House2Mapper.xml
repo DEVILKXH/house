@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.demo.mapper.House2Mapper" >
+	<resultMap id="BaseResultMap" type="com.demo.entity.House2" >
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="area" property="area" jdbcType="VARCHAR" />
+		<result column="year" property="year" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="VARCHAR" />
+		<result column="month" property="month" jdbcType="VARCHAR" />
+		<result column="origin" property="origin" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    	id, city, area, year, price, month, origin
+	</sql>
+	<select id="getAvgPriceByMonth" resultMap="BaseResultMap">
+		SELECT city,area,`year`,`month`,price FROM house2 WHERE `year`= DATE_FORMAT(SYSDATE(),'%Y') and area = #{area}
+	</select>
+	
+	<select id="getAvgPriceByYear" resultMap="BaseResultMap">
+		SELECT
+			city,
+			`year`,
+			area,
+			floor(avg(price)) AS price
+		FROM
+			house2
+		GROUP BY city,`year`,area
+		ORDER BY `year` DESC
+	</select>
+	
+	<delete id="deleteAll">
+		delete from house2
+	</delete>
+</mapper>

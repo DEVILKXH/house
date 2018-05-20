@@ -32,12 +32,22 @@ public class HouseController extends BaseController<House, HouseMapper,HouseServ
 	@Autowired
 	private PythonService pythonService;
 
+	/**
+	 * 预测页面
+	 * @return
+	 */
 	@RequestMapping(value = "/forecast.do")
 	public String forecast(){
 		return "forecast";
 	}
 	
-
+	/**
+	 * 调用python获取预测结果
+	 * @param city
+	 * @param brand
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/getForecast.do")
 	@ResponseBody
 	public Map<String,Object> getForecast(String city,String brand,HttpServletRequest request){
@@ -64,15 +74,18 @@ public class HouseController extends BaseController<House, HouseMapper,HouseServ
 	@RequestMapping(value = "/index.do")
 	public String index(Model model) {
 		House house = getAvgPrice();
-		int price = house.getPrice();
-		List<Integer> prices = new ArrayList<>();
-		while(price / 10 != 0){
+		try{
+			int price = house.getPrice();
+			List<Integer> prices = new ArrayList<>();
+			while(price / 10 != 0){
+				prices.add(price % 10);
+				price /= 10;
+			}
 			prices.add(price % 10);
-			price /= 10;
+			Collections.reverse(prices);
+			model.addAttribute("price",prices);
+		}catch (Exception e) {
 		}
-		prices.add(price % 10);
-		Collections.reverse(prices);
-		model.addAttribute("price",prices);
 		return "house";
 	}
 	
@@ -102,7 +115,6 @@ public class HouseController extends BaseController<House, HouseMapper,HouseServ
 		return service.getAvgPrice();
 	}
 	
-
 	/**
 	 * 获取各区当天房价
 	 * @return
