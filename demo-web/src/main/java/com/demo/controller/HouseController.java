@@ -53,21 +53,60 @@ public class HouseController extends BaseController<House, HouseMapper,HouseServ
 	public Map<String,Object> getForecast(String city,String brand,HttpServletRequest request){
 		Map<String,Object> maps = new HashMap<>();
 		List<House> list = service.getForecast(city, brand);
-		Map<String, EchartLine> map = new HashMap<>();
 		List<List<String>> result = new ArrayList<>();
+		int min = 1000;
+		int max = 0;
+		int maxp = 0;
+		int minp = 1000000;
 		for(House house: list){
 			List<String> d = new ArrayList<>();
+			if(house.getPrice() > maxp){
+				maxp = house.getPrice();
+			}
+			if(house.getPrice() < minp){
+				minp = house.getPrice();
+			}
+			if(house.getArea() > max){
+				max = house.getArea();
+			}
+			if(house.getArea() < min){
+				min = house.getArea();
+			}
 			d.add(house.getArea() + "");
 			d.add(house.getPrice().toString());
 			result.add(d);
 		}
 		maps.put("result", result);
 		
-//		String path = request.getSession().getServletContext().getRealPath("/");
-//		String re = pythonService.forecast(city, brand, path);
-//		String []res = re.split("x");
-//		maps.put("b", res[0]);
-//		maps.put("a", res[1]);
+		String path = request.getSession().getServletContext().getRealPath("/");
+		String re = pythonService.forecast(city, brand, path);
+		String []res = re.split("x");
+		double b = Double.parseDouble(res[0]);
+		double a = Double.parseDouble(res[1]);
+		a *= 10000;
+		if(Math.abs(b) < 0.01){
+			b = b * 10000;
+		}else if(Math.abs(b) < 0.1){
+			b = b * 1000;
+		}else{					
+			b = b * 100;
+		}
+		
+		int d = (maxp + minp) /2;
+		int x = (max + min) / 2;
+		
+		a = d - b * x;
+		maps.put("b", b);
+		maps.put("a", a);
+		maps.put("min", min);
+		maps.put("max", max);
+		maps.put("miny", b * min + a);
+		maps.put("maxy", b * max + a);
+		int maxup = (int)maxp/10000;
+		int mindown = (int)minp/10000;
+		maps.put("mindown", (maxup + 1) * 10000);
+		maps.put("maxup", mindown * 10000);
+		
 		return maps;
 	}
 	

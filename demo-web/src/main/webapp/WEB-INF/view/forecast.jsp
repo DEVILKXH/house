@@ -31,7 +31,7 @@
 	        	<select class="brand">
 	        		<option value="">==请选择==</option>
 	        	</select>
-	        	<input type = "text" value="" placeholder="请输入平房" class="myArea">
+	        	<input type = "text" value="" placeholder="请输入平方" class="myArea">
 	        	<input type = "text" value="" readonly placeholder="房价预测数据" class="forecast">
         	</div>
         </div>
@@ -44,6 +44,7 @@
 	<script>
 		var a = 0;
 		var b = 0;
+		var init = 0;
 		var cityBrands = {
 			"同安":["同安北","同集北路","城东","城北","城南","城西","环东海域"],
 			"思明":["东浦路","中山路","会展中心","前埔","厦大","思北","文园路","曾厝垵","松柏","槟榔","湖滨北路","火车站","瑞景","禾祥东路","禾祥西路","莲前东","莲前西路","莲坂","莲花","观音山","鼓浪屿","龙山"],
@@ -104,7 +105,7 @@
 		            xAxisIndex: 0,
 		            yAxisIndex: 0,
 		            data: [],
-		            //markLine: markLineOpt
+		            markLine: markLineOpt
 		        }
 		    ]
 		};
@@ -126,11 +127,22 @@
 				url: '/demo-web/house/getForecast.do?city=' + city + '&brand=' + brand,
 				async: true,
 				success:function(res){
+					b = res.b || 0;
+					a = res.a || 0;
+					maxy = res.maxy || 0;
+					miny = res.miny || 0;
+					console.log(res.min+"," +getPrice(miny))
+					console.log(res.max+"," +getPrice(maxy))
+					markLineOpt.data[0][0] = {coord: [res.min, getPrice(miny)], symbol: 'none'};
+					markLineOpt.data[0][1] = {coord: [res.max, getPrice(maxy)], symbol: 'none'};
 					option.series[0].data = res.result;
-					a = res.a;
-					b = res.b;
+					option.series[0].markLine = markLineOpt;
+					option.yAxis[0] = {gridIndex: 0, min: res.mindown, max: res.maxup };
 					lineOpt.clear();
 					lineOpt.setOption(option);
+				},
+				error: function(res){
+					alert('后台错误')
 				}
 			});
 		});
@@ -138,7 +150,11 @@
 		$(".myArea").on('input',function(){
 			var value = this.value;
 			var values = parseFloat(b * value) + parseFloat(a);
-			$(".forecast").val(values.toFixed(0))
+			$(".forecast").val(getPrice(values))
 		});
+		
+		function getPrice(value){
+			return value.toFixed(0);
+		}
 	</script>
 </html>
